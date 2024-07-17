@@ -102,28 +102,24 @@
             background-color: #d40000;
         }
 
-        #gaugeContainer {
-            display: flex;
+        /* #gaugeContainer {
             flex-direction: column;
             align-items: center;
             position: fixed;
-            right: -20%;
-            top: 64.2%;
+            right: 142px;
+            top: 20%;
             transform: translateY(-50%);
             width: 150px;
-            z-index: 5;
-        }
+            z-index: 999;
+        } */
 
-        .gauge {
-            display: flex;
+        /* .gauge {
             align-items: center;
-            margin-top: -20px;
+            margin-top: 0px;
             text-align: center;
             transform: scale(0.35);
-            /* Adjust this scale value as needed */
             transform-origin: top left;
-            /* Keep the scaling from the top left corner */
-        }
+        } */
 
         /* .text {
             position: fixed;
@@ -139,9 +135,10 @@
             text-align: center;
             font-family: Cyberpunk_digital;
             color: #ffffff;
-            font-size: 72px;
-            right: 90px;
-            top: -360px;
+            font-size: 36px;
+            right: 15px;
+            top: 105px;
+            z-index: 6;
         }
 
         #text2 {
@@ -149,9 +146,10 @@
             text-align: center;
             font-family: Cyberpunk_digital;
             color: #ffffff;
-            font-size: 72px;
-            right: 90px;
-            top: -170px;
+            font-size: 36px;
+            right: 15px;
+            top: 325px;
+            z-index: 6;
         }
 
         #text3 {
@@ -159,9 +157,10 @@
             text-align: center;
             font-family: Cyberpunk_digital;
             color: #ffffff;
-            font-size: 72px;
-            right: 90px;
-            top: -20px;
+            font-size: 36px;
+            right: 15px;
+            top: 530px;
+            z-index: 6;
         }
 
         #text4 {
@@ -169,9 +168,42 @@
             text-align: center;
             font-family: Cyberpunk_digital;
             color: #ffffff;
-            font-size: 72px;
-            right: 90px;
-            top: 100px;
+            font-size: 36px;
+            right: 15px;
+            top: 730px;
+            z-index: 6;
+        }
+
+        #canvas1 {
+            position: fixed;
+            right: 15px;
+            top: 90px;
+            z-index: 7;
+            transform: scale(0.35);
+        }
+
+        #canvas2 {
+            position: fixed;
+            right: 15px;
+            top: 300px;
+            z-index: 7;
+            transform: scale(0.35);
+        }
+
+        #canvas3 {
+            position: fixed;
+            right: 15px;
+            top: 510px;
+            z-index: 7;
+            transform: scale(0.35);
+        }
+
+        #canvas4 {
+            position: fixed;
+            right: 15px;
+            top: 710px;
+            z-index: 7;
+            transform: scale(0.35);
         }
     </style>
 </head>
@@ -186,21 +218,21 @@
     <div id="gaugeContainer">
         <div class="gauge">
             <canvas id="canvas1" height="175" width="350"></canvas>
-            <p class="text" id="text1">00</p>
         </div>
         <div class="gauge">
             <canvas id="canvas2" height="175" width="350"></canvas>
-            <p class="text" id="text2">00</p>
         </div>
         <div class="gauge">
             <canvas id="canvas3" height="175" width="350"></canvas>
-            <p class="text" id="text3">00</p>
         </div>
         <div class="gauge">
             <canvas id="canvas4" height="175" width="350"></canvas>
-            <p class="text" id="text4">00</p>
         </div>
     </div>
+    <p class="text" id="text1">00</p>
+    <p class="text" id="text2">00</p>
+    <p class="text" id="text3">00</p>
+    <p class="text" id="text4">00</p>
     <button id="shootButton">Shoot</button>
 
     <script>
