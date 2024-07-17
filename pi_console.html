@@ -107,7 +107,7 @@
             flex-direction: column;
             align-items: center;
             position: fixed;
-            right: -7.9%;
+            right: -20%;
             top: 64.2%;
             transform: translateY(-50%);
             width: 150px;
@@ -125,12 +125,53 @@
             /* Keep the scaling from the top left corner */
         }
 
-        .text {
+        /* .text {
+            position: fixed;
             text-align: center;
             font-family: Cyberpunk_digital;
             color: #ffffff;
             font-size: 72px;
-            margin-left: 130px;
+            right: 90px;
+        } */
+
+        #text1 {
+            position: fixed;
+            text-align: center;
+            font-family: Cyberpunk_digital;
+            color: #ffffff;
+            font-size: 72px;
+            right: 90px;
+            top: -360px;
+        }
+
+        #text2 {
+            position: fixed;
+            text-align: center;
+            font-family: Cyberpunk_digital;
+            color: #ffffff;
+            font-size: 72px;
+            right: 90px;
+            top: -170px;
+        }
+
+        #text3 {
+            position: fixed;
+            text-align: center;
+            font-family: Cyberpunk_digital;
+            color: #ffffff;
+            font-size: 72px;
+            right: 90px;
+            top: -20px;
+        }
+
+        #text4 {
+            position: fixed;
+            text-align: center;
+            font-family: Cyberpunk_digital;
+            color: #ffffff;
+            font-size: 72px;
+            right: 90px;
+            top: 100px;
         }
     </style>
 </head>
@@ -145,19 +186,19 @@
     <div id="gaugeContainer">
         <div class="gauge">
             <canvas id="canvas1" height="175" width="350"></canvas>
-            <p class="text" id="text1">0</p>
+            <p class="text" id="text1">00</p>
         </div>
         <div class="gauge">
             <canvas id="canvas2" height="175" width="350"></canvas>
-            <p class="text" id="text2">0</p>
+            <p class="text" id="text2">00</p>
         </div>
         <div class="gauge">
             <canvas id="canvas3" height="175" width="350"></canvas>
-            <p class="text" id="text3">0</p>
+            <p class="text" id="text3">00</p>
         </div>
         <div class="gauge">
             <canvas id="canvas4" height="175" width="350"></canvas>
-            <p class="text" id="text4">0</p>
+            <p class="text" id="text4">00</p>
         </div>
     </div>
     <button id="shootButton">Shoot</button>
@@ -326,13 +367,13 @@
                 });
         }
 
-        previous_rotation = 0;
+        previous_rotation = [0, 0, 0, 0];
 
         function updateGauge(gauge, value) {
 
             let totalRot = ((value / 100) * 180 * Math.PI) / 180;
 
-            let rotation = previous_rotation;
+            let rotation = previous_rotation[gauge];
             let targetRotation = totalRot;
             let doAnim = true;
             let canvas = null;
@@ -459,7 +500,7 @@
                 ctx.restore();
 
                 rotation = interpolate(rotation, targetRotation, 0.1);
-                previous_rotation = targetRotation;
+                previous_rotation[gauge] = targetRotation;
                 text.innerHTML = Math.round((rotation / Math.PI) * 100).toString().padStart(2, '0');
                 requestAnimationFrame(animate);
             }
