@@ -310,27 +310,29 @@
 
         // update gauges
 
-        setInterval(updateGauges, 500);
+        setInterval(updateGauges, 2000);
 
         function updateGauges() {
             fetch(`http://${pi_ip}:5000/get-status`)
                 .then(response => response.json())
                 .then(data => {
-                    updateGauge(1, data['motor_speed_1']);
-                    updateGauge(2, data['motor_speed_2']);
-                    updateGauge(3, data['motor_speed_3']);
-                    updateGauge(4, data['motor_speed_4']);
+                    updateGauge(1, (data['motor_speed_1'] / 2.55) | 0);
+                    updateGauge(2, (data['motor_speed_2'] / 2.55) | 0);
+                    updateGauge(3, (data['motor_speed_3'] / 2.55) | 0);
+                    updateGauge(4, (data['motor_speed_4'] / 2.55) | 0);
                 })
                 .catch(error => {
                     console.error('Error fetching gauges:', error);
                 });
         }
 
+        previous_rotation = 0;
 
         function updateGauge(gauge, value) {
+
             let totalRot = ((value / 100) * 180 * Math.PI) / 180;
 
-            let rotation = 0;
+            let rotation = previous_rotation;
             let targetRotation = totalRot;
             let doAnim = true;
             let canvas = null;
@@ -413,24 +415,26 @@
                     var newY = y1;
                     for (var i = 0; i < dotCount; i++) {
                         dotRadius = dotRadius >= 0.75 ? dotRadius - i * (0.5 / 15) : dotRadius;
-                        drawDot(newX, newY, dotRadius, `${dotColor}${100 - (i + 1)}`);
+                        drawLine(x1, y1, x2, y2, dotRadius, `${dotColor}${100 - (i + 1)}`);
                         newX += spaceX;
                         newY += spaceY;
                     }
                 };
 
-                const drawDot = (x, y, dotRadius, dotColor) => {
+                const drawLine = (x1, y1, x2, y2, lineWidth, lineColor) => {
                     ctx.beginPath();
-                    ctx.arc(x, y, dotRadius, 0, 2 * Math.PI, false);
-                    ctx.fillStyle = dotColor;
-                    ctx.fill();
+                    ctx.moveTo(x1, y1);  // 将画笔移动到起始点 (x1, y1)
+                    ctx.lineTo(x2, y2);  // 从起始点 (x1, y1) 绘制到结束点 (x2, y2)
+                    ctx.lineWidth = lineWidth;  // 设置线条宽度
+                    ctx.strokeStyle = lineColor;  // 设置线条颜色
+                    ctx.stroke();  // 绘制线条
                 };
 
-                let firstDottedLineDots = calcPointsCirc(center.x, center.y, 165, 1);
+                let firstDottedLineDots = calcPointsCirc(center.x, center.y, 180, 2);
                 for (let k = 0; k < firstDottedLineDots.length; k++) {
                     let x = firstDottedLineDots[k].x;
                     let y = firstDottedLineDots[k].y;
-                    DrawDottedLine(x, y, 175, 175, 1.75, 30, "#35FFFF");
+                    DrawDottedLine(x, y, 175, 175, 1.75, 1, "#35FFFF");
                 }
 
                 //dummy circle to hide the line connecting to center
@@ -455,7 +459,7 @@
                 ctx.restore();
 
                 rotation = interpolate(rotation, targetRotation, 0.1);
-
+                previous_rotation = targetRotation;
                 text.innerHTML = Math.round((rotation / Math.PI) * 100).toString().padStart(2, '0');
                 requestAnimationFrame(animate);
             }
