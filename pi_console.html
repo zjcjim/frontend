@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Predator</title>
     <style>
+        @font-face {
+            font-family: 'Cyberpunk';
+            src: url('Sddystopiandemo-GO7xa.otf');
+        }
+
         body,
         html {
             margin: 0;
@@ -16,17 +21,19 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: url('background.jpg') no-repeat center 35px fixed;
+            /* background: url('background.jpg') no-repeat center 35px fixed; */
             background-color: #000901;
             background-size: 100% 150%;
         }
 
         .title {
             color: #ffffff;
-            font-size: 48px;
+            font-size: 100px;
             margin-bottom: 20px;
-            font-family: 'Impact', Charcoal, sans-serif;
-            text-shadow: 4px 4px #ff0000, -4px -4px #0000ff;
+            margin-top: 10px;
+            font-family: Cyberpunk;
+            text-shadow: 4px 4px #13d3bd;
+            z-index: 4;
         }
 
         #videoContainer {
@@ -44,6 +51,7 @@
             display: block;
             width: 100%;
             height: 100%;
+            z-index: 1;
         }
 
         #videoCanvas {
@@ -51,7 +59,20 @@
             top: 0;
             left: 0;
             width: 100%;
+            height: 150%;
+            z-index: 3;
+        }
+
+        #backgroundImage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
+            z-index: 2;
+            object-fit: cover;
+            background: url('background.jpg') no-repeat center 35px fixed;
+            size: 100% 100%;
         }
 
         #shootButton {
@@ -74,6 +95,7 @@
 
 <body>
     <h1 class="title">Target Tracing</h1>
+    <img src="background.png" id="backgroundImage" alt="Background Image">
     <div id="videoContainer">
         <img src="" id="videoStream" alt="Video Stream" />
         <canvas id="videoCanvas" width="1280" height="720"></canvas>
