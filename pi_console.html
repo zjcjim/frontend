@@ -35,7 +35,7 @@
             color: #ffffff;
             font-size: 100px;
             margin-bottom: 20px;
-            margin-top: 10px;
+            margin-top: -50px;
             font-family: Cyberpunk;
             text-shadow: 4px 4px #13d3bd;
             z-index: 4;
@@ -45,7 +45,7 @@
             position: relative;
             width: 60%;
             height: 80%;
-            top: -14px;
+            top: -20px;
             left: 0;
             max-width: 1280px;
             max-height: 720px;
@@ -87,17 +87,43 @@
         }
 
         #shootButton {
+            position: fixed;
             margin-top: 20px;
             padding: 10px 20px;
+            left: 150px;
+            top: 450px;
+            font-family: Cyberpunk;
             font-size: 24px;
             cursor: pointer;
             background-color: #ff0000;
             color: #ffffff;
             border: none;
             border-radius: 5px;
+            z-index: 10;
         }
 
         #shootButton:active {
+            transform: scale(0.95);
+            background-color: #d40000;
+        }
+
+        #soundButton {
+            position: fixed;
+            margin-top: 20px;
+            padding: 10px 20px;
+            left: 150px;
+            top: 600px;
+            font-family: Cyberpunk;
+            font-size: 24px;
+            cursor: pointer;
+            background-color: #ff0000;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            z-index: 10;
+        }
+
+        #soundButton:active {
             transform: scale(0.95);
             background-color: #d40000;
         }
@@ -234,6 +260,7 @@
     <p class="text" id="text3">00</p>
     <p class="text" id="text4">00</p>
     <button id="shootButton">Shoot</button>
+    <button id="soundButton">Sound</button>
 
     <script>
         const videoStream = document.getElementById('videoStream');
@@ -366,8 +393,29 @@
                 });
         }
 
+        function sendSoundCommand() {
+            fetch(`http://${pi_ip}:5000/key`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ key: 'sound' })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Sound command sent:', data);
+                })
+                .catch(error => {
+                    console.error('Error sending sound command:', error);
+                });
+        }
+
         shootButton.addEventListener('click', () => {
             sendShootCommand();
+        });
+
+        soundButton.addEventListener('click', () => {
+            sendSoundCommand();
         });
 
         document.addEventListener('keydown', (event) => {
